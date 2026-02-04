@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - EnemyAttack
+  - Enemy
+  - Bubble
+  - Boss
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Ground
+  - Monster
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3444567635
+    locked: 0
+  - name: Platforms
+    uniqueID: 1277052829
+    locked: 0
+  - name: Attack
+    uniqueID: 2114543705
+    locked: 0
+  - name: Monster
+    uniqueID: 3044227911
+    locked: 0
+  - name: Player
+    uniqueID: 194436209
+    locked: 0
+  - name: UI
+    uniqueID: 2201645829
+    locked: 0
+  m_RenderingLayers:
+  - Default
