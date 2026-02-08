@@ -109,6 +109,8 @@ MonoBehaviour:
   speed: 4
   waveAmplitude: 5
   waveFrequency: 5
+  normalSprite: {fileID: -1903938849148726051, guid: 54beb1f1dfb78c0449fb0ba7ae3b4fd2, type: 3}
+  trappedSprite: {fileID: -622002025466694989, guid: cfde3dd12a8911f43be6306c6c4ff2d5, type: 3}
 --- !u!61 &6429212882325022917
 BoxCollider2D:
   m_ObjectHideFlags: 0
