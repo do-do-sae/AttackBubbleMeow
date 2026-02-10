@@ -61,31 +61,51 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.5f2\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\NavMeshAgentControl\NavMeshAgentControlBehaviour.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TextSwitcher\TextSwitcherMixerBehaviour.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\ScreenFader\ScreenFaderBehaviour.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TransformTween\TransformTweenBehaviour.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TextSwitcher\TextSwitcherTrack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TextSwitcher\TextSwitcherBehaviour.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TransformTween\TransformTweenMixerBehaviour.cs" />
     <Compile Include="Assets\Script\Sound\SoundManager.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TimeDilation\TimeDilationClip.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\NavMeshAgentControl\NavMeshAgentControlClip.cs" />
     <Compile Include="Assets\Script\Player\Player_W.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
     <Compile Include="Assets\Script\Map\PlatformSpawn.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TimeDilation\TimeDilationTrack.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TextSwitcher\TextSwitcherClip.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\LightControl\LightControlClip.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Script\Player\BubbleAttack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TransformTween\TransformTweenTrack.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TimeDilation\TimeDilationBehaviour.cs" />
     <Compile Include="Assets\Script\Monster\Assistant.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TimeDilation\TimeDilationMixerBehaviour.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\LightControl\LightControlTrack.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\Video\VideoScriptPlayableAsset.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\NavMeshAgentControl\NavMeshAgentControlMixerBehaviour.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\Video\VideoScriptPlayableTrack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\ScreenFader\ScreenFaderClip.cs" />
     <Compile Include="Assets\Script\Monster\PaperAttack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
@@ -96,16 +116,24 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\Script\Player\AutoAttack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\TransformTween\TransformTweenClip.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\LightControl\LightControlMixerBehaviour.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\NavMeshAgentControl\NavMeshAgentControlTrack.cs" />
     <Compile Include="Assets\Script\Map\MoveLoop.cs" />
     <Compile Include="Assets\Script\Monster\BossManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\ScreenFader\ScreenFaderMixerBehaviour.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\Video\VideoPlayableBehaviour.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\LightControl\LightControlBehaviour.cs" />
     <Compile Include="Assets\Script\UI\GameManager.cs" />
     <Compile Include="Assets\Script\UI\UIManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\Video\VideoSchedulerPlayableBehaviour.cs" />
     <Compile Include="Assets\Script\Map\PlatformMove.cs" />
+    <Compile Include="Assets\UnityTechnologies\DefaultPlayables\ScreenFader\ScreenFaderTrack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1240,6 +1268,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Splines.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Splines.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.2D.Common.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1280,12 +1312,20 @@
       <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.Cinemachine.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Cinemachine.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.2D.Aseprite.Common">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Aseprite.Common.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect">
       <HintPath>Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Cinemachine">
+      <HintPath>Library\ScriptAssemblies\Unity.Cinemachine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
@@ -1402,6 +1442,14 @@
     </Reference>
     <Reference Include="Unity.InputSystem">
       <HintPath>Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Settings.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Settings.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Splines">
+      <HintPath>Library\ScriptAssemblies\Unity.Splines.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEditor.UI">

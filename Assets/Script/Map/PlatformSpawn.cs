@@ -3,7 +3,7 @@ using UnityEngine;
 public class PatternSpawner : MonoBehaviour
 {
     public GameObject[] patternPrefabs; // 조립된 패턴 프리팹들
-    public float spawnInterval = 5f;    // 패턴 길이에 맞춰 간격을 조절하세요 
+    public float spawnInterval = 7f;    // 패턴 길이에 맞춰 간격을 조절하세요 
     public float spawnX = 15f;          // 화면 오른쪽 밖 소환 지점
 
     private float timer;

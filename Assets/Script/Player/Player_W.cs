@@ -16,19 +16,22 @@ public class PlayerMove : MonoBehaviour
     public bool hasShield = false;
 
     [Header("대시(Dash) 설정")]
-    public float dashSpeed = 15f;      // 대시 속도
-    public float dashTime = 0.2f;       // 대시 지속 시간
-    public float dashCooldown = 5f;     // 쿨타임
-    private bool canDash = true;        // 대시 가능 여부
-    private bool isDashing = false;     // 대시 중 여부
+    public float dashSpeed = 15f;
+    public float dashTime = 0.2f;
+    public float dashCooldown = 5f;
+    private bool canDash = true;
+    private bool isDashing = false;
 
     [Header("애니메이션 설정")]
     private Animator anim;
     private SpriteRenderer spriteRenderer;
-    private bool isInvincible = false; // 무적 상태 체크
+    private bool isInvincible = false;
 
     private Rigidbody2D rb;
     private bool isGrounded;
+
+    // [추가] 게임 시작 전 제어권 확인용
+    public bool isControlEnabled = false;
 
     void Start()
     {
@@ -44,64 +47,60 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        // 죽었거나 대시 중일 때는 입력을 처리하지 않음
-        if (currentHp <= 0 || isDashing) return;
+        // [수정] 죽었거나, 대시 중이거나, 아직 게임 시작 신호가 안 왔을 때 입력 차단
+        if (currentHp <= 0 || isDashing || !isControlEnabled)
+        {
+            if (!isControlEnabled && rb != null)
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
 
-        // 1. 좌우 이동
         float x = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(x * speed, rb.linearVelocity.y);
 
         if (x > 0) transform.localScale = new Vector3(1, 1, 1);
         else if (x < 0) transform.localScale = new Vector3(-1, 1, 1);
 
-        // 2. 땅 체크
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
 
-        // 3. 점프
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        // 4. 대시 입력 (왼쪽 Shift)
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
     }
 
-    // --- 대시 코루틴 ---
     System.Collections.IEnumerator Dash()
     {
-        // UI 쿨타임 연출 시작
         if (UIManager.instance != null)
             UIManager.instance.StartDashCooldownUI(dashCooldown + dashTime);
 
         canDash = false;
         isDashing = true;
-        isInvincible = true; // 대시 중 무적
+        isInvincible = true;
 
         float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f; // 중력 무시
+        rb.gravityScale = 0f;
 
-        // 바라보는 방향으로 돌진
         rb.linearVelocity = new Vector2(transform.localScale.x * dashSpeed, 0f);
 
         yield return new WaitForSeconds(dashTime);
 
-        // 원래 상태로 복구
         rb.gravityScale = originalGravity;
         isDashing = false;
         isInvincible = false;
 
-        // 쿨타임 대기
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isInvincible) return; // 무적일 때는 충돌 무시 (대시 중 포함)
+        if (isInvincible) return;
 
         if (collision.CompareTag("Enemy"))
         {
@@ -142,10 +141,16 @@ public class PlayerMove : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("게임 오버");
+        if (speed == 0 && rb.bodyType == RigidbodyType2D.Kinematic) return;
+
+        Debug.Log("플레이어 사망 - 게임 오버 연출 시작");
+
         speed = 0;
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Kinematic;
+
+        // [주의] Animator에 "Die" 트리거 파라미터가 반드시 있어야 합니다.
+        anim.SetTrigger("Die");
 
         GameManager gm = GameObject.FindFirstObjectByType<GameManager>();
         if (gm != null)

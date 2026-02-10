@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using DG.Tweening; // DOTween 필수
+using DG.Tweening;
 
 public class BossManager : MonoBehaviour
 {
@@ -16,22 +16,23 @@ public class BossManager : MonoBehaviour
     public Sprite summonSprite;
 
     [Header("공격 주기 설정")]
-    public float basicAttackCooldown = 2.0f; // 책 던지기 간격
-    public float summonSkillCooldown = 10.0f; // 조교 소환 간격 (스킬)
+    public float basicAttackCooldown = 2.0f;
+    public float summonSkillCooldown = 10.0f;
 
     [Header("보스 설정")]
     public int scorePerHit = 100;
     private SpriteRenderer spriteRenderer;
 
     [Header("둥둥 움직임 (DOTween)")]
-    public float floatAmount = 3f;      // 위아래 이동 폭
-    public float floatDuration = 1f;    // 한 번 움직이는 데 걸리는 시간
+    public float floatAmount = 3f;
+    public float floatDuration = 1f;
 
     [Header("반동 설정 (DOTween)")]
-    public float recoilDistance = 0.8f; // 뒤로 밀리는 거리
-    public float recoilTime = 0.15f;    // 밀리는 속도
+    public float recoilDistance = 0.8f;
+    public float recoilTime = 0.15f;
 
     private Vector3 startPos;
+    private bool isGameStarted = false; // [추가] 중복 실행 방지용
 
     void Start()
     {
@@ -39,24 +40,31 @@ public class BossManager : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (normalSprite != null) spriteRenderer.sprite = normalSprite;
 
-        // 보스 위아래 둥실거리는 움직임 초기화
+        // 보스 위아래 둥실거리는 움직임 초기화 (타임라인 도중에도 움직임)
         transform.position = startPos + Vector3.down * (floatAmount * 0.5f);
         transform.DOMoveY(transform.position.y + floatAmount, floatDuration)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);
 
-        // 두 개의 루프를 병렬로 실행
-        StartCoroutine(BasicAttackLoop());   // 기본 공격 (랜덤 책 던지기)
-        StartCoroutine(SummonSkillLoop());   // 특수 스킬 (주기적 조교 소환)
+        // [수정] Start에서 더 이상 공격 코루틴을 바로 실행하지 않습니다.
     }
 
-    // 1. 기본 공격 루프 (책 던지기 2종 중 랜덤)
+    // [추가] GameManager가 타임라인 종료 시 이 함수를 호출합니다.
+    public void StartBossAction()
+    {
+        if (isGameStarted) return;
+        isGameStarted = true;
+
+        StartCoroutine(BasicAttackLoop());
+        StartCoroutine(SummonSkillLoop());
+    }
+
     IEnumerator BasicAttackLoop()
     {
-        yield return new WaitForSeconds(2f); // 게임 시작 후 첫 공격 대기
+        yield return new WaitForSeconds(1f); // 활성화 후 약간의 대기
         while (true)
         {
-            int pattern = Random.Range(0, 2); // 0 또는 1 선택
+            int pattern = Random.Range(0, 2);
 
             if (pattern == 0) yield return StartCoroutine(TripleStraightPattern());
             else yield return StartCoroutine(WaveAttackPattern());
@@ -65,20 +73,15 @@ public class BossManager : MonoBehaviour
         }
     }
 
-    // 2. 특수 스킬 루프 (일정 시간마다 조교 소환)
     IEnumerator SummonSkillLoop()
     {
         while (true)
         {
-            // 설정한 스킬 쿨타임만큼 대기
             yield return new WaitForSeconds(summonSkillCooldown);
-
-            // 조교 소환 패턴 실행
             yield return StartCoroutine(SummonAssistantPatternRoutine());
         }
     }
 
-    // --- 반동 연출 ---
     void PlayRecoil()
     {
         transform.DOMoveX(startPos.x + recoilDistance, recoilTime)
@@ -88,7 +91,6 @@ public class BossManager : MonoBehaviour
             });
     }
 
-    // --- 패턴 1: 3줄 직선 공격 ---
     IEnumerator TripleStraightPattern()
     {
         if (attackPaperSprite != null) spriteRenderer.sprite = attackPaperSprite;
@@ -105,7 +107,6 @@ public class BossManager : MonoBehaviour
         spriteRenderer.sprite = normalSprite;
     }
 
-    // --- 패턴 2: 웨이브 공격 ---
     IEnumerator WaveAttackPattern()
     {
         if (attackPaperSprite != null) spriteRenderer.sprite = attackPaperSprite;
@@ -119,16 +120,13 @@ public class BossManager : MonoBehaviour
         spriteRenderer.sprite = normalSprite;
     }
 
-    // --- 패턴 3: 조교 소환 (스킬) ---
     IEnumerator SummonAssistantPatternRoutine()
     {
-        // 스킬 발동 시 시각적 강조 (통통 튀기)
         transform.DOPunchScale(Vector3.one * 0.2f, 0.5f);
 
         if (summonSprite != null) spriteRenderer.sprite = summonSprite;
         PlayRecoil();
 
-        // 조교 소환 위치 랜덤 설정
         Vector3 spawnPos = new Vector3(transform.position.x - 1f, Random.Range(-2f, 2f), 0);
         Instantiate(assistantPrefab, spawnPos, Quaternion.identity);
 
@@ -140,7 +138,6 @@ public class BossManager : MonoBehaviour
     {
         if (collision.CompareTag("Bubble"))
         {
-            // 맞았을 때 피드백 (흔들림)
             transform.DOShakePosition(0.2f, 0.3f, 10, 90, false, true);
 
             if (UIManager.instance != null) UIManager.instance.AddScore(scorePerHit);
