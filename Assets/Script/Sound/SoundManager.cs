@@ -2,27 +2,101 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager instance; // 어디서든 접근 가능한 싱글톤
+    public static SoundManager instance;
 
-    [Header("오디오 소스")]
-    public AudioSource sfxPlayer; // 효과음 전용 플레이어
+    [Header("Audio Sources")]
+    public AudioSource sfxPlayer;   // 효과음 전용
+    public AudioSource bgmPlayer;   // BGM 전용
 
-    [Header("효과음 파일(Clip)")]
-    public AudioClip bubbleSound; // 버블 발사 소리
+    [Header("SFX Clips")]
+    public AudioClip bubbleSound;
+    public AudioClip jumpSound;
+    public AudioClip dashSound;
+    public AudioClip hitSound;
+    public AudioClip BosshitSound;
+    public AudioClip ClickBtn;
+
+
+    [Header("BGM Clips")]
+    public AudioClip mainBGM;
+    public AudioClip gameOverBGM;
 
     void Awake()
     {
-        // 싱글톤 설정
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+            instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject); // 씬 전환해도 유지
     }
 
-    // 효과음을 재생하는 공용 함수
+    // =========================
+    //  BGM
+    // =========================
+
+    public void PlayMainBGM()
+    {
+        if (bgmPlayer.clip == mainBGM && bgmPlayer.isPlaying)
+            return;
+
+        bgmPlayer.Stop();
+        bgmPlayer.clip = mainBGM;
+        bgmPlayer.loop = true;
+        bgmPlayer.Play();
+    }
+
+    public void PlayGameOverBGM()
+    {
+        bgmPlayer.Stop();
+        bgmPlayer.clip = gameOverBGM;
+        bgmPlayer.Play();
+    }
+
+    public void StopBGM()
+    {
+        bgmPlayer.Stop();
+    }
+
+    // =========================
+    //  SFX
+    // =========================
+
     public void PlaySFX(AudioClip clip)
     {
         if (clip != null)
-        {
             sfxPlayer.PlayOneShot(clip);
-        }
+    }
+
+    public void PlayBubble()
+    {
+        PlaySFX(bubbleSound);
+    }
+
+    public void PlayJump()
+    {
+        PlaySFX(jumpSound);
+    }
+
+    public void PlayDash()
+    {
+        PlaySFX(dashSound);
+    }
+
+    public void PlayHit()
+    {
+        PlaySFX(hitSound);
+    }
+
+    public void PlayBossHit()
+    {
+        PlaySFX(BosshitSound);
+    }
+    public void Click()
+    {
+        PlaySFX(ClickBtn);
     }
 }

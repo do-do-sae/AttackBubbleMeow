@@ -1,172 +1,273 @@
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
-using Unity.Cinemachine; // Unity 6 핵심 네임스페이스
+using DG.Tweening;
+using Unity.Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
-    // static 인스턴스 추가 (PlayerMove에서 호출하기 위함)
     public static GameManager instance;
 
+    [Header("Panels")]
     public GameObject startPanel;
-    public GameObject gameUI;
-    public GameObject gameWorld;
-    public GameObject gameOverPanel;
+    public GameObject gameWorld;     // 보스/플레이어/플랫폼 등 실제 월드
+    public GameObject gameUI;        // HP/점수/대시 UI
+    public GameObject gameOverPanel; // GameOver UI
+    public GameObject resultPanel;   // Result UI
 
-    [Header("타임라인 및 카메라 설정")]
+    [Header("Timeline / Camera")]
     public PlayableDirector startTimeline;
-    public CinemachineCamera vcamMain; // Unity 6에서는 CinemachineCamera를 사용합니다
+    public CinemachineCamera vcamMain;
 
-    [Header("시작 화면 연출")]
-    public RectTransform decoBG;
-    public float floatDistance = 20f;
-    public float floatDuration = 1.5f;
-
-    [Header("페이드 효과")]
+    [Header("Fade (Black Overlay Image)")]
     public Image fadeImage;
+
+    public int LastScore { get; private set; } = 0;
 
     void Awake()
     {
-        // 싱글톤 초기화
-        instance = this;
+        if (instance == null) instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()
     {
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
+        InitToStartState();
+    }
 
-        gameWorld.SetActive(false);
-        gameUI.SetActive(false);
-        startPanel.SetActive(true);
+    // =========================
+    // START FLOW
+    // =========================
+    public void OnClickStart()
+    {
+        // BGM
+        if (SoundManager.instance != null)
+            SoundManager.instance.PlayMainBGM();
+        
+        if (SoundManager.instance != null)
+            SoundManager.instance.Click();
 
-        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        // 1) 검정 오버레이를 즉시 켜서 "딜레이 체감" 제거
+        SetBlackOverlay(true);
 
+        // 2) StartPanel 끄고 월드 켜기 (검정이라 안 보임)
+        if (startPanel != null) startPanel.SetActive(false);
+        if (gameWorld != null) gameWorld.SetActive(true);
+
+        // 3) 타임라인/게임 시작
+        PlayTimelineOrStartGameplay();
+
+        // 4) 살짝 딜레이 후 검정 페이드아웃
         if (fadeImage != null)
         {
-            fadeImage.color = new Color(0, 0, 0, 0);
-            fadeImage.gameObject.SetActive(false);
+            fadeImage.DOFade(0f, 0.35f)
+                .SetDelay(0.08f)
+                .SetUpdate(true)
+                .OnComplete(() =>
+                {
+                    SetBlackOverlay(false);
+                });
         }
-
-        if (decoBG != null)
+        else
         {
-            decoBG.DOAnchorPosY(decoBG.anchoredPosition.y + floatDistance, floatDuration)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo);
+            SetBlackOverlay(false);
         }
     }
 
-    public void GameStart()
+    void PlayTimelineOrStartGameplay()
     {
-        if (fadeImage == null) return;
+        if (startTimeline != null)
+        {
+            if (vcamMain != null) vcamMain.Priority = 10;
 
-        fadeImage.gameObject.SetActive(true);
-        fadeImage.transform.SetAsLastSibling();
-
-        startPanel.transform.DOScale(0f, 0.5f).SetEase(Ease.InBack).OnComplete(() => {
-            startPanel.SetActive(false);
-            gameWorld.SetActive(true);
-
-            // [에러 없는 카메라 컷 방식]
-            // 1. 시네머신 브레인을 찾습니다.
-            var brain = Camera.main.GetComponent<Unity.Cinemachine.CinemachineBrain>();
-            if (brain != null)
-            {
-                // 2. 브레인을 잠시 껐다가 다음 프레임에 바로 켜지도록 하여 
-                // 이전 위치(갈색 화면)를 강제로 잊게 만듭니다.
-                brain.enabled = false;
-
-                // 3. 타임라인 시작 직전에 다시 켜서 첫 카메라를 즉시 잡게 합니다.
-                brain.enabled = true;
-            }
-
-            if (startTimeline != null)
-            {
-                if (vcamMain != null) vcamMain.Priority = 10;
-
-                startTimeline.Play();
-                Invoke("OnTimelineFinished", (float)startTimeline.duration);
-            }
-            else
-            {
-                OnTimelineFinished();
-            }
-        });
+            startTimeline.stopped -= OnTimelineStopped;
+            startTimeline.stopped += OnTimelineStopped;
+            startTimeline.Play();
+        }
+        else
+        {
+            StartGameplay();
+        }
     }
 
-    // 함수 안의 중복 정의를 제거하고 하나로 합쳤습니다.
-    void OnTimelineFinished()
+    void OnTimelineStopped(PlayableDirector d)
     {
-        // 1. UI 활성화
-        gameUI.SetActive(true);
+        if (startTimeline != null)
+            startTimeline.stopped -= OnTimelineStopped;
 
-        // 2. 보스 공격 활성화
-        BossManager boss = Object.FindFirstObjectByType<BossManager>();
-        if (boss != null) boss.StartBossAction();
+        StartGameplay();
+    }
 
-        // 3. 플레이어 제어 및 자동공격 활성화
-        PlayerMove player = Object.FindFirstObjectByType<PlayerMove>();
+    void StartGameplay()
+    {
+        if (gameUI != null) gameUI.SetActive(true);
+
+        // 플레이어 조작/자동공격 활성화
+        PlayerMove player = FindFirstObjectByType<PlayerMove>();
+        if (player != null) player.isControlEnabled = true;
+
         if (player != null)
         {
-            player.isControlEnabled = true;
             AutoAttack aa = player.GetComponent<AutoAttack>();
             if (aa != null) aa.canAttack = true;
         }
 
-        // 4. 연출 마무리 (암전 해제 등)
-        fadeImage.DOFade(0f, 0.5f).OnComplete(() => {
-            fadeImage.gameObject.SetActive(false);
-        });
+        // 보스 공격 시작
+        BossManager boss = FindFirstObjectByType<BossManager>();
+        if (boss != null) boss.StartBossAction();
     }
 
+    // =========================
+    // GAME OVER FLOW
+    // =========================
     public void OnGameOver()
     {
+        // 점수 먼저 저장 (UI가 꺼져도 안전)
+        LastScore = (UIManager.instance != null) ? UIManager.instance.CurrentScore : 0;
+
+        // BestScore 저장 (UIManager에 GetBestScore 없어도 됨)
+        int best = PlayerPrefs.GetInt("BEST_SCORE", 0);
+        if (LastScore > best)
+        {
+            PlayerPrefs.SetInt("BEST_SCORE", LastScore);
+            PlayerPrefs.Save();
+        }
+
+        // 정지
         Time.timeScale = 0f;
         AudioListener.pause = true;
 
-        if (UIManager.instance != null)
+        // 검정 페이드 인 -> GameOverPanel 표시
+        if (fadeImage != null)
         {
-            UIManager.instance.OnGameOverWithFade();
+            fadeImage.gameObject.SetActive(true);
+            fadeImage.color = new Color(0, 0, 0, 0);
+            fadeImage.transform.SetAsLastSibling();
+
+            fadeImage.DOFade(1f, 0.5f).SetUpdate(true).OnComplete(() =>
+            {
+                if (gameOverPanel != null)
+                {
+                    gameOverPanel.SetActive(true);
+                    gameOverPanel.transform.SetAsLastSibling();
+                }
+            });
         }
         else
         {
-            // 만약 UIManager가 없을 경우를 대비한 기본 실행
-            OnGameOverWithFade();
+            if (gameOverPanel != null) gameOverPanel.SetActive(true);
+            // GameOver BGM
+            if (SoundManager.instance != null)
+                SoundManager.instance.PlayGameOverBGM();
         }
     }
 
-    // GameManager 내부에서도 게임오버 연출이 가능하도록 유지
-    public void OnGameOverWithFade()
+    // GameOverPanel 버튼에서 호출 (Result로 이동)
+    // 결과 패널에서도 "검정 배경 유지" 버전
+    public void GoToResultWithFade()
     {
-        if (fadeImage == null) return;
+        // 이미 GameOver에서 화면이 검정(알파1) 상태이므로
+        // 그냥 검정 유지 + 패널만 교체하면 됨
+        SetBlackOverlay(true);
 
-        fadeImage.gameObject.SetActive(true);
-        fadeImage.transform.SetAsLastSibling();
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
-        fadeImage.DOFade(1f, 1.0f).SetUpdate(true).OnComplete(() => {
-            if (gameOverPanel != null)
-            {
-                gameOverPanel.SetActive(true);
-                gameOverPanel.transform.SetAsLastSibling();
-                gameOverPanel.transform.localScale = Vector3.zero;
-                gameOverPanel.transform.DOScale(1f, 0.5f).SetUpdate(true).SetEase(Ease.OutBack);
-            }
-        });
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(true);
+
+            // 검정(fade) 위에 resultPanel이 보이도록 순서 보장
+            if (fadeImage != null) fadeImage.transform.SetAsLastSibling();
+            resultPanel.transform.SetAsLastSibling();
+
+            ResultPanelUI rui = resultPanel.GetComponent<ResultPanelUI>();
+            if (rui != null) rui.Show(LastScore);
+        }
+        if (SoundManager.instance != null)
+            SoundManager.instance.Click();
     }
 
-    public void RestartGame()
+    // =========================
+    // RESULT BUTTONS
+    // =========================
+    public void RestartToStart()
     {
+        if (SoundManager.instance != null)
+            SoundManager.instance.Click();
+        // 가장 안정: 씬 리로드
         Time.timeScale = 1f;
         AudioListener.pause = false;
         DOTween.KillAll();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void GoToMain()
+    public void ExitGame()
     {
-        DOTween.KillAll();
-        SceneManager.LoadScene("SampleScene"); // 실제 메인 씬 이름으로 확인하세요
+        if (SoundManager.instance != null)
+            SoundManager.instance.Click();
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    // =========================
+    // INIT
+    // =========================
+    void InitToStartState()
+    {
+        Time.timeScale = 1f;
+        AudioListener.pause = false;
+
+        if (gameWorld != null) gameWorld.SetActive(false);
+        if (gameUI != null) gameUI.SetActive(false);
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (resultPanel != null) resultPanel.SetActive(false);
+
+        if (startPanel != null)
+        {
+            startPanel.SetActive(true);
+            startPanel.transform.localScale = Vector3.one;
+        }
+
+        SetBlackOverlay(false);
+
+        if (UIManager.instance != null)
+        {
+            UIManager.instance.ResetUI();
+            UIManager.instance.RefreshBestText();
+        }
+
+        // 시작화면 랭킹 최신화가 필요하면 (StartPanel이 랭킹을 보여주는 경우)
+        if (RankingManager.instance != null)
+            RankingManager.instance.Reload();
+        if (SoundManager.instance != null)
+            SoundManager.instance.PlayMainBGM();
+    }
+
+    // =========================
+    // Black Overlay Helper
+    // =========================
+    void SetBlackOverlay(bool on)
+    {
+        if (fadeImage == null) return;
+
+        if (on)
+        {
+            fadeImage.gameObject.SetActive(true);
+            fadeImage.color = new Color(0, 0, 0, 1f);
+            fadeImage.transform.SetAsLastSibling();
+        }
+        else
+        {
+            fadeImage.color = new Color(0, 0, 0, 0);
+            fadeImage.gameObject.SetActive(false);
+        }
     }
 }

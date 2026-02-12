@@ -1,99 +1,120 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Collections;
+using System.Globalization;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    [Header("∆‰¿ÃµÂ º≥¡§")]
-    public Image fadeImage; // Ω√¿€ Ω√ ªÁøÎ«ﬂ¥¯ ±◊ FadeImage∏¶ µÂ∑°±◊«ÿº≠ ø¨∞·«œººø‰.
-
-    [Header("∆–≥Œ º≥¡§")]
-    public GameObject gameOverPanel; // ∞‘¿” ø¿πˆ ∆–≥Œ
-
-    [Header("HP º≥¡§")]
+    [Header("HP")]
     public Image hpFillImage;
     public float lerpSpeed = 5f;
-    private float targetFill = 1f;
+    float targetFill = 1f;
+    public TextMeshProUGUI hpNumberText;
 
-    [Header("¡°ºˆ º≥¡§")]
+    [Header("Score")]
     public TextMeshProUGUI scoreText;
-    private int currentScore = 0;
+    int currentScore = 0;
+    public int CurrentScore => currentScore;
 
-    [Header("¥ÎΩ√ º≥¡§")]
+    [Header("Dash UI")]
     public Image dashCooldownGauge;
-    private Coroutine dashCoroutine;
+    Coroutine dashCoroutine;
 
-    void Awake() { instance = this; }
+    [Header("StartPanel Best")]
+    public TextMeshProUGUI bestScoreText;
+    private const string BEST_KEY = "BEST_SCORE";
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     void Update()
     {
-        hpFillImage.fillAmount = Mathf.Lerp(hpFillImage.fillAmount, targetFill, Time.deltaTime * lerpSpeed);
+        // Í≤åÏûÑ Î©àÏ∂∞ÎèÑ UIÎäî ÏûêÏó∞Ïä§ÎüΩÍ≤å Î≥¥Ïù¥Í≤å unscaledDeltaTime
+        if (hpFillImage != null)
+            hpFillImage.fillAmount = Mathf.Lerp(hpFillImage.fillAmount, targetFill, Time.unscaledDeltaTime * lerpSpeed);
     }
 
-    // --- ∞‘¿” ø¿πˆ ∆‰¿ÃµÂ ø¨√‚ ---
-    public void OnGameOverWithFade()
-    {
-        if (fadeImage == null) return;
-
-        // 1. √ ±‚»≠: ªˆªÛ¿∫ ∞À¡§, æÀ∆ƒ¥¬ 0¿∏∑Œ ºº∆√ »ƒ »∞º∫»≠
-        fadeImage.color = new Color(0, 0, 0, 0);
-        fadeImage.gameObject.SetActive(true);
-
-        // 2. ∑π¿ÃæÓ º¯º≠ √÷ªÛ¥‹¿∏∑Œ (¥Ÿ∏• UI∫∏¥Ÿ æ’ø° ≥™ø¿∞‘)
-        fadeImage.transform.SetAsLastSibling();
-
-        // 3. 1√  µøæ» ∞À¿∫ªˆ¿∏∑Œ »≠∏È µ§±‚ (Alpha: 1)
-        fadeImage.DOFade(1f, 1.0f).OnComplete(() => {
-
-            // 4. »≠∏È¿Ã øœ¿¸»˜ ∞À∞‘ ∫Ø«ﬂ¿ª ∂ß ∆–≥Œ »∞º∫»≠
-            if (gameOverPanel != null)
-            {
-                gameOverPanel.SetActive(true);
-                // ∆–≥Œ¿ª ∆‰¿ÃµÂ ¿ÃπÃ¡ˆ∫∏¥Ÿ ¥ı æ’¿∏∑Œ ∞°¡ÆøÕæﬂ ±€¿⁄∞° ∫∏¿‘¥œ¥Ÿ.
-                gameOverPanel.transform.SetAsLastSibling();
-            }
-        });
-    }
-
-    // --- ±‚¡∏ «‘ºˆµÈ ---
+    // PlayerMoveÍ∞Ä Ìò∏Ï∂ú
     public void UpdateHPBar(float currentHP, float maxHP)
     {
         targetFill = currentHP / maxHP;
-    }
 
-    public void AddScore(int amount)
-    {
-        currentScore += amount;
-        if (scoreText != null)
+        if (hpNumberText != null)
         {
-            scoreText.text = currentScore.ToString();
-            scoreText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
+            int cur = Mathf.CeilToInt(currentHP);
+            int max = Mathf.CeilToInt(maxHP);
+            hpNumberText.text = $"{cur} / {max}";
         }
     }
 
+    void RefreshScoreText()
+    {
+        if (scoreText == null) return;
+        scoreText.text = currentScore.ToString("N0", CultureInfo.InvariantCulture); // 1,000 ÌòïÏãù
+    }
+    public void AddScore(int amount)
+    {
+        currentScore += amount;
+
+        RefreshScoreText();
+
+        if (scoreText != null)
+            scoreText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f);
+    }
+
+    public int GetBestScore()
+    {
+        return PlayerPrefs.GetInt(BEST_KEY, 0);
+    }
+
+    public void RefreshBestText()
+    {
+        if (bestScoreText == null) return;
+
+        int best = PlayerPrefs.GetInt("BEST_SCORE", 0);
+        bestScoreText.text = $"BEST : {best:N0}";
+    }
+
+    // PlayerMoveÍ∞Ä Ìò∏Ï∂ú
     public void StartDashCooldownUI(float duration)
     {
+        if (dashCooldownGauge == null) return;
+
         if (dashCoroutine != null) StopCoroutine(dashCoroutine);
         dashCoroutine = StartCoroutine(DashCooldownCoroutine(duration));
     }
 
-    private System.Collections.IEnumerator DashCooldownCoroutine(float duration)
+    IEnumerator DashCooldownCoroutine(float duration)
     {
-        float timer = 0f;
+        float t = 0f;
         dashCooldownGauge.fillAmount = 0f;
-        while (timer < duration)
+
+        while (t < duration)
         {
-            timer += Time.deltaTime;
-            dashCooldownGauge.fillAmount = timer / duration;
+            t += Time.unscaledDeltaTime; // Î©àÏ∂∞ÎèÑ ÏßÑÌñâ
+            dashCooldownGauge.fillAmount = Mathf.Clamp01(t / duration);
             yield return null;
         }
+
         dashCooldownGauge.fillAmount = 1f;
-        dashCooldownGauge.transform.DOPunchScale(Vector3.one * 0.3f, 0.4f, 10, 1f);
-        dashCooldownGauge.DOColor(Color.white, 0.1f).OnComplete(() => {
-            dashCooldownGauge.DOColor(Color.cyan, 0.2f);
-        });
+        dashCooldownGauge.transform.DOPunchScale(Vector3.one * 0.25f, 0.3f).SetUpdate(true);
+    }
+
+    public void ResetUI()
+    {
+        currentScore = 0;
+        RefreshScoreText();
+        if (scoreText != null) scoreText.text = "0";
+
+        targetFill = 1f;
+        if (hpFillImage != null) hpFillImage.fillAmount = 1f;
+
+        if (dashCooldownGauge != null) dashCooldownGauge.fillAmount = 1f;
     }
 }

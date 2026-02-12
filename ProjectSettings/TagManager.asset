@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Bubble
   - Boss
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Ground
   - Monster
-  - 
+  - Effect
   - 
   - 
   - 
@@ -62,6 +63,9 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2201645829
+    locked: 0
+  - name: Effect
+    uniqueID: 338734163
     locked: 0
   m_RenderingLayers:
   - Default

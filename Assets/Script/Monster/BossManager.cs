@@ -1,55 +1,127 @@
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using Unity.Cinemachine;
 
 public class BossManager : MonoBehaviour
 {
+    // ======================================================
+    // 1. 공격 프리팹 설정
+    // ======================================================
     [Header("공격 프리팹 설정")]
     public GameObject straightPaperPrefab;
     public GameObject wavePaperPrefab;
+    public GameObject targetedPaperPrefab;
+    public GameObject fastPaperPrefab;
+    public GameObject explosivePaperPrefab;
     public GameObject assistantPrefab;
     public Transform firePoint;
 
+    // ======================================================
+    // 2. 보스 이미지 설정
+    // ======================================================
     [Header("보스 이미지 설정")]
     public Sprite normalSprite;
     public Sprite attackPaperSprite;
     public Sprite summonSprite;
 
+    // ======================================================
+    // 3. 공격 / 소환 쿨타임
+    // ======================================================
     [Header("공격 주기 설정")]
     public float basicAttackCooldown = 2.0f;
-    public float summonSkillCooldown = 10.0f;
+    public float summonSkillCooldown = 8.0f;
 
+    // ======================================================
+    // 4. 보스 설정
+    // ======================================================
     [Header("보스 설정")]
     public int scorePerHit = 100;
     private SpriteRenderer spriteRenderer;
+    private CinemachineImpulseSource impulseSource;
 
+    // ======================================================
+    // 5. 둥둥 움직임 (DOTween)
+    // ======================================================
     [Header("둥둥 움직임 (DOTween)")]
-    public float floatAmount = 3f;
+    public float floatAmount = 4.5f;
     public float floatDuration = 1f;
 
+    // ======================================================
+    // 6. 반동 설정 (DOTween)
+    // ======================================================
     [Header("반동 설정 (DOTween)")]
     public float recoilDistance = 0.8f;
     public float recoilTime = 0.15f;
 
     private Vector3 startPos;
-    private bool isGameStarted = false; // [추가] 중복 실행 방지용
+    private bool isGameStarted = false;
 
+    
+    // ======================================================
+    // 7. 점수 기반 난이도
+    // ======================================================
+    public enum DifficultyTier
+    {
+        Tier1,   // 0 ~ 1000
+        Tier2,   // 1000 ~ 5000
+        Tier3,   // 5000 ~ 10000
+        Tier4    // 10000+
+    }
+
+    DifficultyTier GetDifficultyTier(int score)
+    {
+        if (score < 1000) return DifficultyTier.Tier1;
+        if (score < 5000) return DifficultyTier.Tier2;
+        if (score < 10000) return DifficultyTier.Tier3;
+        return DifficultyTier.Tier4;
+    }
+
+    float GetAttackCooldown(DifficultyTier tier)
+    {
+        switch (tier)
+        {
+            case DifficultyTier.Tier1: return 2.0f;
+            case DifficultyTier.Tier2: return 1.6f;
+            case DifficultyTier.Tier3: return 1.2f;
+            case DifficultyTier.Tier4: return 0.8f;
+        }
+        return 2f;
+    }
+
+    float GetSummonCooldown(DifficultyTier tier)
+    {
+        switch (tier)
+        {
+            case DifficultyTier.Tier1: return 10f;
+            case DifficultyTier.Tier2: return 8f;
+            case DifficultyTier.Tier3: return 6f;
+            case DifficultyTier.Tier4: return 4f;
+        }
+        return 10f;
+    }
+
+    // ======================================================
+    // 8. 초기화
+    // ======================================================
     void Start()
     {
         startPos = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (normalSprite != null) spriteRenderer.sprite = normalSprite;
+        impulseSource = GetComponent<CinemachineImpulseSource>();
 
-        // 보스 위아래 둥실거리는 움직임 초기화 (타임라인 도중에도 움직임)
+        spriteRenderer.sprite = normalSprite;
+
+        // 둥둥 움직임
         transform.position = startPos + Vector3.down * (floatAmount * 0.5f);
-        transform.DOMoveY(transform.position.y + floatAmount, floatDuration)
+        transform.DOMoveY(startPos.y + (floatAmount * 0.5f), floatDuration)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);
-
-        // [수정] Start에서 더 이상 공격 코루틴을 바로 실행하지 않습니다.
     }
 
-    // [추가] GameManager가 타임라인 종료 시 이 함수를 호출합니다.
+    // ======================================================
+    // 9. 전투 시작
+    // ======================================================
     public void StartBossAction()
     {
         if (isGameStarted) return;
@@ -59,48 +131,71 @@ public class BossManager : MonoBehaviour
         StartCoroutine(SummonSkillLoop());
     }
 
+    // ======================================================
+    // 10. 기본 공격 루프
+    // ======================================================
     IEnumerator BasicAttackLoop()
     {
-        yield return new WaitForSeconds(1f); // 활성화 후 약간의 대기
+        yield return new WaitForSeconds(1f);
+
         while (true)
         {
-            int pattern = Random.Range(0, 2);
+            int score = UIManager.instance.CurrentScore;
+            DifficultyTier tier = GetDifficultyTier(score);
+            float cooldown = GetAttackCooldown(tier);
 
-            if (pattern == 0) yield return StartCoroutine(TripleStraightPattern());
-            else yield return StartCoroutine(WaveAttackPattern());
+            if (tier <= DifficultyTier.Tier2)
+            {
+                yield return StartCoroutine(RandomSinglePattern());
+            }
+            else if (tier == DifficultyTier.Tier3)
+            {
+                StartCoroutine(RandomSinglePattern());
+                yield return StartCoroutine(RandomSinglePattern());
+            }
+            else
+            {
+                StartCoroutine(RandomSinglePattern());
+                StartCoroutine(RandomSinglePattern());
+                yield return StartCoroutine(RandomSinglePattern());
+            }
 
-            yield return new WaitForSeconds(basicAttackCooldown);
+            yield return new WaitForSeconds(cooldown);
         }
     }
 
-    IEnumerator SummonSkillLoop()
+    // ======================================================
+    // 11. 랜덤 패턴 선택
+    // ======================================================
+    IEnumerator RandomSinglePattern()
     {
-        while (true)
+        int pattern = Random.Range(0, 5);
+
+        switch (pattern)
         {
-            yield return new WaitForSeconds(summonSkillCooldown);
-            yield return StartCoroutine(SummonAssistantPatternRoutine());
+            case 0: yield return TripleStraightPattern(); break;
+            case 1: yield return WaveAttackPattern(); break;
+            case 2: yield return FanTargetPattern(); break;
+            case 3: yield return FastSnipePattern(); break;
+            case 4: yield return ExplosiveAttackPattern(); break;
         }
     }
 
-    void PlayRecoil()
-    {
-        transform.DOMoveX(startPos.x + recoilDistance, recoilTime)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(() => {
-                transform.DOMoveX(startPos.x, recoilTime * 2f).SetEase(Ease.InOutQuad);
-            });
-    }
+    // ======================================================
+    // 12. 개별 공격 패턴
+    // ======================================================
 
     IEnumerator TripleStraightPattern()
     {
-        if (attackPaperSprite != null) spriteRenderer.sprite = attackPaperSprite;
+        spriteRenderer.sprite = attackPaperSprite;
         PlayRecoil();
 
         float[] yOffsets = { -1.8f, 0f, 1.8f };
         foreach (float y in yOffsets)
         {
-            Vector3 spawnPos = firePoint.position + new Vector3(0, y, 0);
-            Instantiate(straightPaperPrefab, spawnPos, Quaternion.identity);
+            Instantiate(straightPaperPrefab,
+                firePoint.position + new Vector3(0, y, 0),
+                Quaternion.identity);
         }
 
         yield return new WaitForSeconds(0.8f);
@@ -109,39 +204,144 @@ public class BossManager : MonoBehaviour
 
     IEnumerator WaveAttackPattern()
     {
-        if (attackPaperSprite != null) spriteRenderer.sprite = attackPaperSprite;
+        spriteRenderer.sprite = attackPaperSprite;
         PlayRecoil();
 
-        Instantiate(wavePaperPrefab, firePoint.position, Quaternion.identity);
-        yield return new WaitForSeconds(0.4f);
-        Instantiate(wavePaperPrefab, firePoint.position, Quaternion.identity);
+        Vector3 spawnPos = new Vector3(firePoint.position.x, 0, 0);
+
+        GameObject wave1 = Instantiate(wavePaperPrefab, spawnPos, Quaternion.identity);
+        wave1.GetComponent<Paper>().waveAmplitude = 2.8f;
+
+        GameObject wave2 = Instantiate(wavePaperPrefab, spawnPos, Quaternion.identity);
+        wave2.GetComponent<Paper>().waveAmplitude = -2.8f;
 
         yield return new WaitForSeconds(0.4f);
         spriteRenderer.sprite = normalSprite;
     }
 
-    IEnumerator SummonAssistantPatternRoutine()
+    IEnumerator FanTargetPattern()
     {
-        transform.DOPunchScale(Vector3.one * 0.2f, 0.5f);
-
-        if (summonSprite != null) spriteRenderer.sprite = summonSprite;
+        spriteRenderer.sprite = attackPaperSprite;
         PlayRecoil();
 
-        Vector3 spawnPos = new Vector3(transform.position.x - 1f, Random.Range(-2f, 2f), 0);
-        Instantiate(assistantPrefab, spawnPos, Quaternion.identity);
+        Instantiate(targetedPaperPrefab, firePoint.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(0.5f);
+        spriteRenderer.sprite = normalSprite;
+    }
+
+    IEnumerator FastSnipePattern()
+    {
+        spriteRenderer.sprite = attackPaperSprite;
+        PlayRecoil();
+
+        float[] yPositions = { 2.5f, 0f, -2.5f };
+        foreach (float y in yPositions)
+        {
+            Instantiate(fastPaperPrefab,
+                new Vector3(firePoint.position.x, y, 0),
+                Quaternion.identity);
+        }
+
+        yield return new WaitForSeconds(0.6f);
+        spriteRenderer.sprite = normalSprite;
+    }
+
+    IEnumerator ExplosiveAttackPattern()
+    {
+        spriteRenderer.sprite = attackPaperSprite;
+        PlayRecoil();
+
+        int count = Random.Range(2, 4);
+        for (int i = 0; i < count; i++)
+        {
+            float y = Random.Range(-2.5f, 2.5f);
+            Instantiate(explosivePaperPrefab,
+                new Vector3(firePoint.position.x, y, 0),
+                Quaternion.identity);
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        yield return new WaitForSeconds(0.6f);
+        spriteRenderer.sprite = normalSprite;
+    }
+
+    // ======================================================
+    // 13. 조교 소환 루프
+    // ======================================================
+    IEnumerator SummonSkillLoop()
+    {
+        while (true)
+        {
+            int score = UIManager.instance.CurrentScore;
+            DifficultyTier tier = GetDifficultyTier(score);
+
+            yield return new WaitForSeconds(GetSummonCooldown(tier));
+            yield return StartCoroutine(SummonAssistantPatternRoutine());
+        }
+    }
+
+    IEnumerator SummonAssistantPatternRoutine()
+    {
+        transform.DOScale(Vector3.one * 1.2f, 0.3f);
+        yield return new WaitForSeconds(0.3f);
+
+        spriteRenderer.sprite = summonSprite;
+        TriggerSummonShake(0.8f);
+        PlayRecoil();
+
+        Instantiate(assistantPrefab,
+            new Vector3(transform.position.x - 1f, Random.Range(-2f, 2f), 0),
+            Quaternion.identity);
 
         yield return new WaitForSeconds(0.8f);
         spriteRenderer.sprite = normalSprite;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    // ======================================================
+    // 14. 보조 연출
+    // ======================================================
+    void PlayRecoil()
     {
-        if (collision.CompareTag("Bubble"))
-        {
-            transform.DOShakePosition(0.2f, 0.3f, 10, 90, false, true);
+        transform.DOMoveX(startPos.x + recoilDistance, recoilTime)
+            .OnComplete(() =>
+                transform.DOMoveX(startPos.x, recoilTime * 2f));
+    }
 
-            if (UIManager.instance != null) UIManager.instance.AddScore(scorePerHit);
-            Destroy(collision.gameObject);
-        }
+    void TriggerSummonShake(float intensity)
+    {
+        if (impulseSource != null)
+            impulseSource.GenerateImpulseWithVelocity(
+                impulseSource.DefaultVelocity * intensity);
+    }
+
+    // ======================================================
+    // 15. 피격 처리 (점수)
+    // ======================================================
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (!collision.CompareTag("Bubble")) return;
+     
+    //    UIManager.instance.AddScore(scorePerHit);
+    //    Destroy(collision.gameObject);
+    //}
+
+    // ======================================================
+    // 16. 타격 이펙트 처리
+    // ======================================================
+    public void OnHit()
+    {
+        StartCoroutine(HitFlash());
+
+        if (SoundManager.instance != null)
+            SoundManager.instance.PlayBossHit();
+    }
+    IEnumerator HitFlash()
+    {
+        spriteRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.08f);
+        spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.08f);
+        spriteRenderer.color = Color.white;
     }
 }

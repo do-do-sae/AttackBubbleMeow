@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.04062, y: 0.59552, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -111,6 +111,12 @@ MonoBehaviour:
   speed: 5
   waveAmplitude: 2.5
   waveFrequency: 3
+  acceleration: 0
+  explodeRange: 1.5
+  explodeDelay: 1
+  explodeRadius: 2.5
+  damage: 10
+  explodeEffect: {fileID: 0}
 --- !u!50 &6963994709537279060
 Rigidbody2D:
   serializedVersion: 5
@@ -194,6 +200,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.00685215, y: 0}
-  m_Size: {x: 0.9526572, y: 0.9526572}
+  m_Offset: {x: -0.005024831, y: 0.009136518}
+  m_Size: {x: 0.43735266, y: 0.48120818}
   m_Direction: 0

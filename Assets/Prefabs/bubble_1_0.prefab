@@ -107,6 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bubble
   speed: 10
   lifeTime: 2
+  hitEffectPrefab: {fileID: 5112403345868107898, guid: 6f34ef0d986e9db4199cf75805f79753, type: 3}
+  hitEffectScale: 0.2
+  hitEffectLife: 2
 --- !u!58 &8930135902821092753
 CircleCollider2D:
   m_ObjectHideFlags: 0

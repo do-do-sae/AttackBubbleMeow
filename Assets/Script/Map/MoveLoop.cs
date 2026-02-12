@@ -1,26 +1,41 @@
 using UnityEngine;
 
-public class MoveLoop : MonoBehaviour
+public class CityParallaxController : MonoBehaviour
 {
-    [Header("설정값")]
-    public float speed = 2f;          // 이동 속도
-    public float repeatWidth = 25f;   // 배경 한 세트의 가로 길이 (25 입력)
+    [System.Serializable]
+    public class Layer
+    {
+        public Transform root;              // Sky/Far/Mid/Near/Lights (타일 2장을 가진 부모)
+        [Range(0f, 1f)] public float multiplier = 0.5f;
+        public float repeatWidth = 25f;     // 그 레이어 타일 1장의 가로 길이
+        [HideInInspector] public Vector3 startPos;
+    }
 
-    private Vector3 startPos;
+    [Header("Global Speed")]
+    public float baseSpeed = 2f;
+
+    [Header("Layers (set in Inspector)")]
+    public Layer[] layers;
 
     void Start()
     {
-        // 시작할 때의 초기 위치를 기억합니다.
-        startPos = transform.position;
+        for (int i = 0; i < layers.Length; i++)
+        {
+            if (layers[i].root != null)
+                layers[i].startPos = layers[i].root.position;
+        }
     }
 
     void Update()
     {
-        // Mathf.Repeat(현재시간 * 속도, 반복거리)
-        // 0부터 25 사이의 값을 무한히 반복해서 뿜어냅니다.
-        float offset = Mathf.Repeat(Time.time * speed, repeatWidth);
+        for (int i = 0; i < layers.Length; i++)
+        {
+            var l = layers[i];
+            if (l.root == null) continue;
 
-        // 초기 위치에서 계산된 거리만큼 왼쪽(Vector3.left)으로 밀어줍니다.
-        transform.position = startPos + Vector3.left * offset;
+            float layerSpeed = baseSpeed * l.multiplier;
+            float offset = Mathf.Repeat(Time.time * layerSpeed, l.repeatWidth);
+            l.root.position = l.startPos + Vector3.left * offset;
+        }
     }
 }
