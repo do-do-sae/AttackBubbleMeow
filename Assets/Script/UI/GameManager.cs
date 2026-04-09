@@ -195,16 +195,25 @@ public class GameManager : MonoBehaviour
     // =========================
     // RESULT BUTTONS
     // =========================
+    public bool RewardGo = false; // 광고 보상 여부
     public void RestartToStart()
     {
-        if (SoundManager.instance != null)
-            SoundManager.instance.Click();
-        // 가장 안정: 씬 리로드
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
-        DOTween.KillAll();
+        if(RewardGo == false) 
+        {
+            //리워드 광고 실행
+            AdsManager.Instance.ShowRewardedAd();
+        }
+        else
+        {
+            if (SoundManager.instance != null)
+                SoundManager.instance.Click();
+            // 가장 안정: 씬 리로드
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            DOTween.KillAll();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     public void ExitGame()

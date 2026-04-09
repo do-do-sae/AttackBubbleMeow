@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFXREditor", "CFXREditor.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{8F545E9B-8097-4D22-953F-246A230596EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleMobileAds.Editor", "GoogleMobileAds.Editor.csproj", "{4C46DBA3-C9AB-840E-097A-0FA46C7339E4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{8B10B254-BB30-21DE-E59A-37825316930D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoBloom.Runtime", "KinoBloom.Runtime.csproj", "{E8978201-72E1-D79E-3C8C-27D47C86419E}"
@@ -45,6 +47,10 @@ Global
 		{8F545E9B-8097-4D22-953F-246A230596EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F545E9B-8097-4D22-953F-246A230596EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F545E9B-8097-4D22-953F-246A230596EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C46DBA3-C9AB-840E-097A-0FA46C7339E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C46DBA3-C9AB-840E-097A-0FA46C7339E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C46DBA3-C9AB-840E-097A-0FA46C7339E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C46DBA3-C9AB-840E-097A-0FA46C7339E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B10B254-BB30-21DE-E59A-37825316930D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B10B254-BB30-21DE-E59A-37825316930D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B10B254-BB30-21DE-E59A-37825316930D}.Release|Any CPU.ActiveCfg = Release|Any CPU

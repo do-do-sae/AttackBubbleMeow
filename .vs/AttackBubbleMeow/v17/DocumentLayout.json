@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|c:\\unity study\\lion7unity\\attackbubblemeow\\assets\\script\\adsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\adsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\assets\\script\\ui\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61EAE1EF-F7E8-7041-D024-0A40363C6395}|CFXR.WelcomeScreen.csproj|c:\\unity study\\lion7unity\\attackbubblemeow\\assets\\jmo assets\\welcome screen\\cfxr_welcomescreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{61EAE1EF-F7E8-7041-D024-0A40363C6395}|CFXR.WelcomeScreen.csproj|solutionrelative:assets\\jmo assets\\welcome screen\\cfxr_welcomescreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\assets\\script\\monster\\assistant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\monster\\assistant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,7 +35,7 @@
       "RelativeMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\map\\platformspawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|c:\\unity study\\lion7unity\\attackbubblemeow\\assets\\script\\monster\\bossmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\assets\\script\\monster\\bossmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\monster\\bossmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -33,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Map\\ScreenBounds.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Script\\Map\\ScreenBounds.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\assets\\script\\ui\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\ui\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A35E9CE1-5152-89BA-85A2-585D5CA16E0A}|Assembly-CSharp.csproj|C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\assets\\script\\ui\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -82,11 +90,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
+              "Title": "AdsManager.cs",
+              "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\AdsManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\AdsManager.cs",
+              "ToolTip": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\AdsManager.cs",
+              "RelativeToolTip": "Assets\\Script\\AdsManager.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAIMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T04:48:19.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\UI\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\UI\\GameManager.cs",
+              "ToolTip": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\UI\\GameManager.cs",
+              "RelativeToolTip": "Assets\\Script\\UI\\GameManager.cs",
+              "ViewState": "AgIAAMQAAAAAAAAAAAAkwNYAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T06:36:36.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CFXR_WelcomeScreen.cs",
+              "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\JMO Assets\\Welcome Screen\\CFXR_WelcomeScreen.cs",
+              "RelativeDocumentMoniker": "Assets\\JMO Assets\\Welcome Screen\\CFXR_WelcomeScreen.cs",
+              "ToolTip": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\JMO Assets\\Welcome Screen\\CFXR_WelcomeScreen.cs",
+              "RelativeToolTip": "Assets\\JMO Assets\\Welcome Screen\\CFXR_WelcomeScreen.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADQAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-23T04:16:11.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "CheatManager.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\CheatManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\CheatManager.cs",
@@ -94,12 +141,11 @@
               "RelativeToolTip": "Assets\\Script\\CheatManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T18:47:26.833Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T18:47:26.833Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "ScreenBounds.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Map\\ScreenBounds.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Map\\ScreenBounds.cs",
@@ -110,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "RankingManager.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Ranking\\RankingManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Ranking\\RankingManager.cs",
@@ -122,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "RankData.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Ranking\\RankData.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Ranking\\RankData.cs",
@@ -134,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "ResultPanelUI.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\UI\\ResultPanelUI.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\UI\\ResultPanelUI.cs",
@@ -146,7 +192,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "PaperAttack.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Monster\\PaperAttack.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Monster\\PaperAttack.cs",
@@ -158,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "WindowState.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Library\\PackageCache\\com.unity.timeline@7f8b2fb101b6\\Editor\\State\\WindowState.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.timeline@7f8b2fb101b6\\Editor\\State\\WindowState.cs",
@@ -166,11 +212,12 @@
               "RelativeToolTip": "Library\\PackageCache\\com.unity.timeline@7f8b2fb101b6\\Editor\\State\\WindowState.cs",
               "ViewState": "AgIAAAkBAAAAAAAAAAAlwBkBAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-09T09:16:17.303Z"
+              "WhenOpened": "2026-02-09T09:16:17.303Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "MoveLoop.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Map\\MoveLoop.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Map\\MoveLoop.cs",
@@ -178,12 +225,11 @@
               "RelativeToolTip": "Assets\\Script\\Map\\MoveLoop.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-09T07:53:21.529Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-09T07:53:21.529Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "AutoAttack.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Player\\AutoAttack.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Player\\AutoAttack.cs",
@@ -195,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "SoundManager.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Sound\\SoundManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Sound\\SoundManager.cs",
@@ -207,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "BubbleAttack.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Player\\BubbleAttack.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Player\\BubbleAttack.cs",
@@ -219,20 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\UI\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Script\\UI\\GameManager.cs",
-              "ToolTip": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\UI\\GameManager.cs",
-              "RelativeToolTip": "Assets\\Script\\UI\\GameManager.cs",
-              "ViewState": "AgIAAH4AAAAAAAAAAAAAAI4AAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T06:36:36.462Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "UIManager.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\UI\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\UI\\UIManager.cs",
@@ -240,12 +273,11 @@
               "RelativeToolTip": "Assets\\Script\\UI\\UIManager.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAFEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-30T07:53:37.996Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-30T07:53:37.996Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Player_W.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Player\\Player_W.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Player\\Player_W.cs",
@@ -253,25 +285,23 @@
               "RelativeToolTip": "Assets\\Script\\Player\\Player_W.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAUwA8AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-30T06:51:37.859Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-30T06:51:37.859Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Assistant.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Monster\\Assistant.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Monster\\Assistant.cs",
               "ToolTip": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Monster\\Assistant.cs",
               "RelativeToolTip": "Assets\\Script\\Monster\\Assistant.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJEAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAkwG4AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-30T06:46:36.499Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-30T06:46:36.499Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "BossManager.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Monster\\BossManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Monster\\BossManager.cs",
@@ -279,12 +309,11 @@
               "RelativeToolTip": "Assets\\Script\\Monster\\BossManager.cs",
               "ViewState": "AgIAACIBAAAAAAAAAAAAAFsBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-30T06:43:35.42Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-30T06:43:35.42Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "PlatformSpawn.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Map\\PlatformSpawn.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Map\\PlatformSpawn.cs",
@@ -292,12 +321,11 @@
               "RelativeToolTip": "Assets\\Script\\Map\\PlatformSpawn.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T09:15:14.597Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T09:15:14.597Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "PlatformMove.cs",
               "DocumentMoniker": "C:\\Unity Study\\Lion7Unity\\AttackBubbleMeow\\Assets\\Script\\Map\\PlatformMove.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\Map\\PlatformMove.cs",
@@ -305,8 +333,7 @@
               "RelativeToolTip": "Assets\\Script\\Map\\PlatformMove.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-29T09:15:04.166Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-29T09:15:04.166Z"
             }
           ]
         }
